@@ -186,7 +186,8 @@ def find_phone():
     print(Fore.MAGENTA + "Your iPhone could be one of the following:")
     for m in current_phone_list:
         print(f"-> {m.name}: {m.properties[0]} screen size") # indicates screen size to differentiate against models with the same properties (e.g. iPhone 12 Mini vs 12)
-    input("\npress enter to exit the program...")
+    print("Note that all S iPhones aside from the XS and XS Max have an boxed S icon at the back!")
+    input(Fore.RED + "\npress enter to exit the program...")
 
 find_phone()
 
