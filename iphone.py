@@ -173,10 +173,11 @@ def find_phone():
                         print(f"{Fore.RED}{current_phone_list[b].name} REMOVED!") # REMOVED
                         current_phone_list.pop(b) # pops it out of the list
             
+                input("\npress enter to continue...")
+
             if len(current_phone_list) == 1: # only one phone left 
                 phone_found = True
 
-            input("\npress enter to continue...")
 
             os.system("cls") # clears screen
         
