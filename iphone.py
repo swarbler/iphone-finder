@@ -1,4 +1,6 @@
 import os
+import colorama
+from colorama import Fore, Back
 
 # name of phone (e.g. iPhone 5S, iPhone X, iPhone 13 Pro Max)
 # screen size 
@@ -153,31 +155,34 @@ def find_phone():
                     available_input.append(current_phone_list[j].properties[i]) 
             
             if len(available_input) != 1: # if there is more than one available input
-                print("current phones")
-                for c in current_phone_list: # displays every possible input
-                    print(f"--> {c.name}")
-                print(properties[i].upper()) # prints property name in UPPERCASE
+                if i != 1: # does not appear on first question
+                    print(Fore.GREEN + "current phones")
+                    for c in current_phone_list: # displays every possible input
+                        print(Fore.CYAN + f"--> {c.name}")
+                print(Fore.BLUE + properties[i].upper()) # prints property name in UPPERCASE
                 for a in available_input: # displays every possible input
-                    print(f"--> {a}")
+                    print(Fore.LIGHTBLUE_EX + f"--> {a}")
                 
                 user_input = "" 
                 
                 while not user_input in available_input: # waits for user to input
-                    user_input = input("enter: ")
+                    user_input = input(Fore.YELLOW + "enter: ")
 
                 for b in range(len(current_phone_list) - 1, -1, -1): # iterates in reverse to avoid conflicts with list indexes (janky, I know)
                     if user_input.lower().strip() != current_phone_list[b].properties[i].lower().strip(): # if property is different to user's input
-                        print(f"{current_phone_list[b].name} REMOVED!") # REMOVED
+                        print(f"{Fore.RED}{current_phone_list[b].name} REMOVED!") # REMOVED
                         current_phone_list.pop(b) # pops it out of the list
             
             if len(current_phone_list) == 1: # only one phone left 
                 phone_found = True
 
+            input("\npress enter to continue...")
+
             os.system("cls") # clears screen
         
         phone_found = True # when all properties have been used up
 
-    print(f"Your iPhone could be one of the following:")
+    print(Fore.MAGENTA + "Your iPhone could be one of the following:")
     for m in current_phone_list:
         print(f"-> {m.name}: {m.properties[0]} screen size") # indicates screen size to differentiate against models with the same properties (e.g. iPhone 12 Mini vs 12)
     input("\npress enter to exit the program...")
