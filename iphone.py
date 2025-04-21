@@ -1,3 +1,5 @@
+import os
+
 # name of phone (e.g. iPhone 5S, iPhone X, iPhone 13 Pro Max)
 # screen size 
 #   small/below 6"
@@ -22,13 +24,15 @@
 # action button (true/false)
 # camera control (true/false)
 
-# properties = [screen_size, material, shape, biometrics, camera_bump, display_notch, port, magsafe, action_button, camera_control]
+properties = ["screen size", "material", "shape", "biometrics", "camera bump", "display notch", "port", "headphone jack", "magsafe", "action button", "camera_control"]
 
+# inits class "Phone"
 class Phone:
   def __init__(self, name, properties):
     self.name = name
     self.properties = properties
 
+# creating objects for each iPhone
 iphone_2g = Phone("iPhone (original)", ["3.5-inch", "dual-tone", "ipod", "none", "none", "bezels", "30-pin", "true", "false", "false", "false"])
 iphone_3g = Phone("iPhone 3G", ["3.5-inch", "plastic", "ipod", "none", "none", "bezels", "30-pin", "true", "false", "false", "false"])
 iphone_3gs = Phone("iPhone 3Gs", ["3.5-inch", "plastic", "ipod", "none", "none", "bezels", "30-pin", "true", "false", "false", "false"])
@@ -77,6 +81,7 @@ iphone_16_pro = Phone("iPhone 16 Pro", ["6.3-inch", "glass back", "flat edges", 
 iphone_16_pro_max = Phone("iPhone 16 Pro Max", ["6.9-inch", "glass back", "flat edges", "FaceID", "triple", "dynamic island", "USB-C", "courage", "true", "true", "true"])
 iphone_16e = Phone("iPhone 16e", ["6.1-inch", "glass back", "flat edges", "FaceID", "single", "notch", "USB-C", "courage", "false", "true", "false"])
 
+# all Phone objects in a list
 iphone_list = [
     iphone_2g,
     iphone_3g,
@@ -127,5 +132,55 @@ iphone_list = [
     iphone_16e,
 ]
 
-for i in iphone_list:
-    print(i.name)
+def list_all_properties():
+    for i in range(len(properties)): # iterates over each property
+        print(properties[i]) # prints property title
+
+        for j in iphone_list: # iterates over every phone
+            print(f"---> {j.name} : {j.properties[i]}") # prints phone and its property
+
+def find_phone():
+    phone_found = False
+    correct_phone = "iPhone"
+    current_phone_list = iphone_list
+
+    while not phone_found: # repeat until phone is found
+        for i in range(1, len(properties) - 1): # iterates every property except screen size
+            available_input = [current_phone_list[0].properties[i]]
+            
+            for j in range(len(current_phone_list) - 1): # adds all selectable properties to available input
+                if not current_phone_list[j].properties[i] in available_input: # append if unique
+                    available_input.append(current_phone_list[j].properties[i]) 
+            
+            if len(available_input) != 1: # if there is more than one available input
+                print("current phones")
+                for c in current_phone_list: # displays every possible input
+                    print(f"--> {c.name}")
+                print(properties[i].upper()) # prints property name in UPPERCASE
+                for a in available_input: # displays every possible input
+                    print(f"--> {a}")
+                
+                user_input = "" 
+                
+                while not user_input in available_input: # waits for user to input
+                    user_input = input("enter: ")
+
+                for b in range(len(current_phone_list) - 1, -1, -1): # iterates in reverse to avoid conflicts with list indexes (janky, I know)
+                    if user_input.lower().strip() != current_phone_list[b].properties[i].lower().strip(): # if property is different to user's input
+                        print(f"{current_phone_list[b].name} REMOVED!") # REMOVED
+                        current_phone_list.pop(b) # pops it out of the list
+            
+            if len(current_phone_list) == 1: # only one phone left 
+                phone_found = True
+
+            os.system("cls") # clears screen
+        
+        phone_found = True # when all properties have been used up
+
+    print(f"Your iPhone could be one of the following:")
+    for m in current_phone_list:
+        print(f"-> {m.name}: {m.properties[0]} screen size") # indicates screen size to differentiate against models with the same properties (e.g. iPhone 12 Mini vs 12)
+    input("\npress enter to exit the program...")
+
+find_phone()
+
